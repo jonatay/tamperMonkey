@@ -1,0 +1,31 @@
+// ==UserScript==
+// @name         accounting.sageone.co.za/app
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  try to take over the world!
+// @author       You
+// @match        https://accounting.sageone.co.za/app
+// @grant        none
+// ==/UserScript==
+
+(function() {
+    'use strict';
+    window.addEventListener('load', () => {
+        addButton('Select Page', selectPageFn)
+    });
+
+    function addButton(text, onclick, cssObj) {
+        cssObj = cssObj || {position: 'absolute', top: '40%', left:'2%', 'z-index': 3, background: 'antiquewhite', fontWeight: 600, color: 'navy' }
+        let button = document.createElement('button'), btnStyle = button.style
+        document.body.appendChild(button)
+        button.innerHTML = text
+        button.onclick = onclick
+        Object.keys(cssObj).forEach(key => btnStyle[key] = cssObj[key])
+        return button
+    }
+    // Your code here...
+    function selectPageFn() {
+        $('td span.sage-toggle-button[ng-model="transaction.$selected"]').not('.soaicon ').click();
+    }
+    //$('td span.sage-toggle-button[ng-model="transaction.$selected"]').not('.soaicon ').click()
+})();
