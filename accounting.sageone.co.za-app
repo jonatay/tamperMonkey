@@ -11,21 +11,31 @@
 (function() {
     'use strict';
     window.addEventListener('load', () => {
-        addButton('Select Page', selectPageFn)
+        addButton('Select Page', selectPageFn, { left:'60%' })
+        addButton('Reset Local & Session', clearLocalStorageFn,
+                  {right:'5%', background: 'red',color: 'white', class:'clear'}
+                 )
     });
 
     function addButton(text, onclick, cssObj) {
-        cssObj = cssObj || {position: 'absolute', top: '40%', left:'2%', 'z-index': 3, background: 'antiquewhite', fontWeight: 600, color: 'navy' }
+        cssObj = {position: 'absolute', top: '11%', 'z-index': 3, background: 'orchid', fontWeight: 600, color: 'navy', ...cssObj }
         let button = document.createElement('button'), btnStyle = button.style
-        document.body.appendChild(button)
+        //document.body.appendChild(button)
+        $('navigation').append(button);
         button.innerHTML = text
         button.onclick = onclick
         Object.keys(cssObj).forEach(key => btnStyle[key] = cssObj[key])
         return button
     }
+
     // Your code here...
     function selectPageFn() {
         $('td span.sage-toggle-button[ng-model="transaction.$selected"]').not('.soaicon ').click();
     }
-    //$('td span.sage-toggle-button[ng-model="transaction.$selected"]').not('.soaicon ').click()
+    function clearLocalStorageFn() {
+        localStorage.clear();
+        sessionStorage.clear();
+        location.reload();
+    }
+
 })();
