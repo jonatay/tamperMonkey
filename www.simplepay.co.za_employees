@@ -25,4 +25,5 @@
     var nSal = getVal(ref1) || getVal(ref2);
     GM_setClipboard(nSal, 'text');
     console.log(nSal);
+    $('h3.mt-2').css({backgroundColor: "blue", color: "white"})
 })();
