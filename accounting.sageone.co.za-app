@@ -8,34 +8,84 @@
 // @grant        none
 // ==/UserScript==
 
-(function() {
-    'use strict';
-    window.addEventListener('load', () => {
-        addButton('Select Page', selectPageFn, { left:'60%' })
-        addButton('Reset Local & Session', clearLocalStorageFn,
-                  {right:'5%', background: 'red',color: 'white', class:'clear'}
-                 )
+(function () {
+  "use strict";
+  window.addEventListener("load", () => {
+    addButton("Select Page", selectPageFn, { left: "60%" });
+    addButton("Reset Local & Session", clearLocalStorageFn, {
+      right: "5%",
+      background: "red",
+      color: "white",
+      class: "clear",
     });
+    addButton("2019", () => setDatesForTYear(2019), {
+      left: "66%",
+      background: "grey",
+      color: "blue",
+    });
+    addButton("2020", () => setDatesForTYear(2020), {
+      left: "68%",
+      background: "orange",
+      color: "blue",
+    });
+    addButton("2021", () => setDatesForTYear(2021), {
+      left: "70%",
+      background: "green",
+      color: "white",
+    });
+    addButton("2022", () => setDatesForTYear(2022), {
+      left: "72%",
+      background: "blue",
+      color: "white",
+    });
+  });
 
-    function addButton(text, onclick, cssObj) {
-        cssObj = {position: 'absolute', top: '11%', 'z-index': 3, background: 'orchid', fontWeight: 600, color: 'navy', ...cssObj }
-        let button = document.createElement('button'), btnStyle = button.style
-        //document.body.appendChild(button)
-        $('navigation').append(button);
-        button.innerHTML = text
-        button.onclick = onclick
-        Object.keys(cssObj).forEach(key => btnStyle[key] = cssObj[key])
-        return button
-    }
+  function addButton(text, onclick, cssObj) {
+    cssObj = {
+      position: "absolute",
+      top: "11%",
+      "z-index": 3,
+      background: "orchid",
+      fontWeight: 600,
+      color: "navy",
+      ...cssObj,
+    };
+    let button = document.createElement("button"),
+      btnStyle = button.style;
+    //document.body.appendChild(button)
+    $("navigation").append(button);
+    button.innerHTML = text;
+    button.onclick = onclick;
+    Object.keys(cssObj).forEach((key) => (btnStyle[key] = cssObj[key]));
+    return button;
+  }
 
-    // Your code here...
-    function selectPageFn() {
-        $('td span.sage-toggle-button[ng-model="transaction.$selected"]').not('.soaicon ').click();
-    }
-    function clearLocalStorageFn() {
-        localStorage.clear();
-        sessionStorage.clear();
-        location.reload();
-    }
+  // Your code here...
+  function selectPageFn() {
+    $('td span.sage-toggle-button[ng-model="transaction.$selected"]')
+      .not(".soaicon ")
+      .click();
+  }
 
+  function clearLocalStorageFn() {
+    localStorage.clear();
+    sessionStorage.clear();
+    location.reload();
+  }
+
+  function setDatesForTYear(tYear) {
+    console.log(tYear);
+    $(
+      "body > div.main > div:nth-child(2) > div > div > div.sage-tabs.additional-sage-tabs.less-bottom-padding.ng-isolate-scope > ul > li:nth-child(2) > a"
+    ).click();
+    $(
+      "body > div.main > div:nth-child(2) > div > div > div.row.banking-actionRow > div:nth-child(5) > span > div:nth-child(2) > span > span > input"
+    ).val(`01/03/${tYear - 1}`);
+    $(
+      "body > div.main > div:nth-child(2) > div > div > div.row.banking-actionRow > div:nth-child(5) > span > div:nth-child(4) > span > span > input"
+    ).val(`${new Date(tYear, 2, 1).getUTCDate()}/02/${tYear}`);
+    $(
+      "body > div.main > div:nth-child(2) > div > div > div.row.banking-actionRow > div:nth-child(5) > span > div:nth-child(5) > button:nth-child(1)"
+    ).click();
+  }
 })();
